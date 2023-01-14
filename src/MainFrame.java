@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        g1.addActionListener(new ActionListener() {
+        g2.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,10 +30,10 @@ public class MainFrame extends JFrame {
             }
 
         });
-        g2.addActionListener(new ActionListener() {
+        g1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new guessingNumber();
+                new guessingNumber(username);
                 dispose();
             }
         });

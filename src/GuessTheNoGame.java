@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class GuessTheNoGame {
     public static void main(String[] args) {
-        new guessingNumber();
+        new guessingNumber("irfan1");
     }
 }
 
@@ -29,7 +29,7 @@ class guessingNumber extends JFrame {
     int flag = 0;
     int win = 0;
 
-    public guessingNumber() {
+    public guessingNumber(String username) {
         System.out.println(number);
         gameIcon = new ImageIcon(getClass().getResource("/Images/GNbackground.jpg"));
         gameImage = gameIcon.getImage();
@@ -147,13 +147,13 @@ class guessingNumber extends JFrame {
 
         restart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new guessingNumber();
+                new guessingNumber(username);
                 dispose();
             }
         });
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new MainFrame("basit");
+                new MainFrame(username);
                 dispose();
             }
         });
