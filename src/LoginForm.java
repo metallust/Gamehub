@@ -98,8 +98,8 @@ public class LoginForm extends JFrame {
 
     private boolean getAuthenticatedUser(String userName, String password) {
         Jdbc conJdbc = new Jdbc(userName);
-        conJdbc.getAuthenticatedUser(password);
+        boolean r = conJdbc.getAuthenticatedUser(password);
         conJdbc.connectionClose();
-        return rootPaneCheckingEnabled;
+        return r;
     }
 }
