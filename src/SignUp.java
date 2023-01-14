@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 public class SignUp extends JFrame {
     final private Font mainFont = new Font("Segoe print", Font.BOLD, 18);
@@ -74,8 +73,6 @@ public class SignUp extends JFrame {
                 if (!userExist) {
                     // adding data in the database
                     String user = addNewUser(name, username, password);
-
-                    // callingg main frame
                     new MainFrame(user);
                     dispose();
                 } else {
@@ -119,72 +116,17 @@ public class SignUp extends JFrame {
     }
 
     private String addNewUser(String name, String username, String password) {
-        User user = null;
-
-        final String DB_URL = "jdbc:mysql://localhost:3306/userdatabase";
-        final String USERNAME = "root";
-        final String PASSWORD = "irfan";
-        try {
-            Connection con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
-            // inserting data in the database
-            String sql = "INSERT INTO users (name, username, password) VALUES(?, ?, ?)";
-            PreparedStatement preparedStatment = con.prepareStatement(sql);
-            preparedStatment.setString(1, name);
-            preparedStatment.setString(2, username);
-            preparedStatment.setString(3, password);
-            preparedStatment.executeUpdate();
-
-            // getting the same data in the form of user to display in the dashboard
-            String sql2 = "SELECT * FROM users WHERE username=?";
-            PreparedStatement preparedStatment2 = con.prepareStatement(sql2);
-            preparedStatment2.setString(1, username);
-            ResultSet resultSet = preparedStatment2.executeQuery();
-            if (resultSet.next()) {
-                user = new User();
-                user.name = resultSet.getString("name");
-                user.userName = resultSet.getString("username");
-                // user.password = resultSet.getString("password");
-                user.score1 = resultSet.getString("score1");
-                user.score2 = resultSet.getString("score2");
-                user.score3 = resultSet.getString("score3");
-            }
-            preparedStatment.close();
-            con.close();
-        } catch (Exception e) {
-            System.out.println("Database connection failed ......   ");
-        }
-        return user.userName;
+        Jdbc conJdbc = new Jdbc(username);
+        conJdbc.addNewUser(username, password);
+        conJdbc.connectionClose();
+        return username;
     }
 
     private boolean checkUser(String username) {
-        int result = 0;
-
-        final String DB_URL = "jdbc:mysql://localhost:3306/userdatabase";
-        final String USERNAME = "root";
-        final String PASSWORD = "irfan";
-        try {
-            Connection con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
-            String sql = "SELECT COUNT(*) FROM users WHERE username=?";
-            PreparedStatement preparedStatment = con.prepareStatement(sql);
-            preparedStatment.setString(1, username);
-
-            ResultSet resultSet = preparedStatment.executeQuery();
-
-            if (resultSet.next()) {
-                result = resultSet.getInt("count(*)");
-            }
-
-            preparedStatment.close();
-            con.close();
-        } catch (Exception e) {
-            System.out.println("Database connection failed ......   ");
-        }
-        if (result > 0)
-            return true;
-        else
-            return false;
+        Jdbc conJdbc = new Jdbc(username);
+        boolean r = conJdbc.checkUser();
+        conJdbc.connectionClose();
+        return r;
     }
 
 }

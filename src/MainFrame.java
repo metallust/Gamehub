@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Game2048();
+                new Game2048(username);
                 dispose();
             }
 

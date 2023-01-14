@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -9,63 +8,136 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Game2048 extends JFrame implements KeyListener {
+
+    Jdbc conJdbc;
     int w = 100;
     int rows = 4, cols = 4;
     Cell[][] grid = new Cell[rows][cols];
     boolean flag;
     boolean gameover = false;
     int score = 0;
+    int highScore;
 
     int red[] = { 238, 237, 242, 245, 246, 246, 237 };
     int green[] = { 228, 224, 177, 149, 124, 94, 207 };
     int blue[] = { 218, 200, 121, 99, 95, 59, 114 };
 
     JFrame frame = new JFrame();
-    JPanel title_panel = new JPanel();
+
+    JPanel titlePanel = new JPanel();
+    JLabel label = new JLabel();
+    JPanel scoresPanel = new JPanel();
+    JLabel scoreTitle = new JLabel("Score");
+    JLabel scoreNumber = new JLabel("0");
+    JLabel highScoreTitle = new JLabel("High Score");
+    JLabel highScoreNumber = new JLabel("0");
+
     JPanel panel = new JPanel();
-    JLabel textfield = new JLabel();
     JLabel[][] labels = new JLabel[4][4];
 
-    Game2048() {
+    JPanel buttonPanel = new JPanel();
+    JButton newGameButton = new JButton("New Game");
+    JButton exitButton = new JButton("Exit");
 
+    String fontName = "Verdana";
+    String username;
+
+    Game2048(String username) {
+        this.username = username;
+        conJdbc = new Jdbc(username);
+        highScore = conJdbc.fetchHighscore2();
+        highScoreNumber.setText(Integer.toString(highScore));
+
+        // main frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(550, 700);
+        frame.setSize(600, 800);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.addKeyListener(this);
+        // frame.addKeyListener(this);
         frame.setTitle("2048");
 
-        textfield.setBackground(new Color(200, 200, 200));
-        textfield.setForeground(new Color(50, 102, 153));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 75));
-        textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("0");
-        textfield.setOpaque(true);
+        // title panel
+        titlePanel.setPreferredSize(new Dimension(550, 100));
+        titlePanel.setLayout(new BorderLayout());
 
-        title_panel.setLayout(new BorderLayout());
-        title_panel.setBounds(0, 0, 550, 70);
+        label = new JLabel("2048", JLabel.CENTER);
+        label.setFont(new Font(fontName, Font.BOLD, 70));
+        label.setForeground(new Color(119, 110, 101));
 
+        titlePanel.add(label, BorderLayout.WEST);
+
+        scoresPanel = new JPanel();
+        scoresPanel.setLayout(new GridLayout(2, 2));
+
+        scoreTitle.setFont(new Font(fontName, Font.BOLD, 27));
+        scoreNumber.setFont(new Font(fontName, Font.BOLD, 23));
+        highScoreTitle.setFont(new Font(fontName, Font.BOLD, 27));
+        highScoreNumber.setFont(new Font(fontName, Font.BOLD, 23));
+
+        scoresPanel.add(scoreTitle);
+        scoresPanel.add(highScoreTitle);
+        scoresPanel.add(scoreNumber);
+        scoresPanel.add(highScoreNumber);
+
+        titlePanel.add(scoresPanel, BorderLayout.EAST);
+        frame.add(titlePanel, BorderLayout.NORTH);
+
+        // Game Panel
         panel.setLayout(new GridLayout(4, 4));
-        // button_panel.setBackground(new Color(150, 150, 150));
+        panel.setBackground(new Color(150, 150, 150));
 
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
                 labels[i][j] = new JLabel();
                 panel.add(labels[i][j]);
-                labels[i][j].setFont(new Font("MV Boli", Font.BOLD, 50));
+                labels[i][j].setFont(new Font(fontName, Font.BOLD, 50));
                 labels[i][j].setFocusable(false);
                 labels[i][j].setOpaque(true);
 
                 // borders
-                labels[i][j].setBorder(new LineBorder(new Color(187, 173, 160), 5, true));
+                labels[i][j].setBorder(new LineBorder(new Color(187, 173, 160), 10, false));
             }
         }
+        frame.add(panel, BorderLayout.CENTER);
 
-        title_panel.add(textfield);
-        frame.add(title_panel, BorderLayout.NORTH);
-        frame.add(panel);
+        // button panel
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+        newGameButton.setPreferredSize(new Dimension(180, 40));
+        exitButton.setPreferredSize(new Dimension(180, 40));
+        newGameButton.setBackground(new Color(143, 122, 102));
+        newGameButton.setForeground(Color.white);
+        exitButton.setBackground(new Color(143, 122, 102));
+        exitButton.setForeground(Color.white);
+        newGameButton.setFont(new Font(fontName, Font.BOLD, 23));
+        exitButton.setFont(new Font(fontName, Font.BOLD, 25));
+
+        newGameButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (score > highScore) {
+                    conJdbc.updatescore2(score);
+                }
+                new Game2048(username);
+                conJdbc.connectionClose();
+                frame.dispose();
+            }
+        });
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (score > highScore) {
+                    conJdbc.updatescore2(score);
+                }
+                new MainFrame(username);
+                conJdbc.connectionClose();
+                frame.dispose();
+            }
+        });
+        frame.requestFocusInWindow();
+        frame.addKeyListener(this);
+        buttonPanel.add(newGameButton);
+        buttonPanel.add(exitButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
@@ -79,7 +151,7 @@ public class Game2048 extends JFrame implements KeyListener {
     }
 
     void updateLabels() {
-        textfield.setText(Integer.toString(score));
+        scoreNumber.setText(Integer.toString(score));
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
 
@@ -112,32 +184,6 @@ public class Game2048 extends JFrame implements KeyListener {
             }
         }
 
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (!gameover) {
-            if (e.getKeyCode() == 37) {
-
-                addRowsLeft();
-            } else if (e.getKeyCode() == 40) {
-
-                addColumnsDown();
-            } else if (e.getKeyCode() == 39) {
-
-                addRowsRight();
-            } else if (e.getKeyCode() == 38) {
-
-                addColumnsUp();
-            }
-
-            updateLabels();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Game Over",
-                    "Game Over",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public void addRowsLeft() {
@@ -216,7 +262,6 @@ public class Game2048 extends JFrame implements KeyListener {
                 temp2[3] = 0;
             }
         }
-
         if (Arrays.equals(temp, temp2))
             flag = true;
         return temp2;
@@ -304,6 +349,34 @@ public class Game2048 extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // System.out.println(e.getKeyCode());
+        if (!gameover) {
+            if (e.getKeyCode() == 37) {
+
+                addRowsLeft();
+            } else if (e.getKeyCode() == 40) {
+
+                addColumnsDown();
+            } else if (e.getKeyCode() == 39) {
+
+                addRowsRight();
+            } else if (e.getKeyCode() == 38) {
+
+                addColumnsUp();
+            }
+
+            updateLabels();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Game Over",
+                    "Game Over",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
 
 class Cell {

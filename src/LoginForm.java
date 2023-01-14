@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 public class LoginForm extends JFrame {
     final private Font mainFont = new Font("Segoe print", Font.BOLD, 18);
@@ -54,9 +53,8 @@ public class LoginForm extends JFrame {
 
                 String username = tfUserName.getText();
                 String password = String.valueOf(pfPassword.getPassword());
-                User user = getAuthenticatedUser(username, password);
 
-                if (user != null) {
+                if (getAuthenticatedUser(username, password)) {
                     new MainFrame(username);
                     dispose();
                 } else {
@@ -98,37 +96,10 @@ public class LoginForm extends JFrame {
         setVisible(true);
     }
 
-    private User getAuthenticatedUser(String userName, String password) {
-        User user = null;
-
-        final String DB_URL = "jdbc:mysql://localhost:3306/userdatabase";
-        final String USERNAME = "root";
-        final String PASSWORD = "irfan";
-        try {
-            Connection con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
-            String sql = "SELECT * FROM users WHERE username=? AND password=?";
-            PreparedStatement preparedStatment = con.prepareStatement(sql);
-            preparedStatment.setString(1, userName);
-            preparedStatment.setString(2, password);
-
-            ResultSet resultSet = preparedStatment.executeQuery();
-
-            if (resultSet.next()) {
-                user = new User();
-                user.name = resultSet.getString("name");
-                user.userName = resultSet.getString("username");
-                // user.password = resultSet.getString("password");
-                user.score1 = resultSet.getString("score1");
-                user.score2 = resultSet.getString("score2");
-                user.score3 = resultSet.getString("score3");
-            }
-
-            preparedStatment.close();
-            con.close();
-        } catch (Exception e) {
-            System.out.println("Database connection failed ......   ");
-        }
-        return user;
+    private boolean getAuthenticatedUser(String userName, String password) {
+        Jdbc conJdbc = new Jdbc(userName);
+        conJdbc.getAuthenticatedUser(password);
+        conJdbc.connectionClose();
+        return rootPaneCheckingEnabled;
     }
 }
