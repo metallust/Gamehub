@@ -56,7 +56,7 @@ public class Game2048 extends JFrame implements KeyListener {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         // frame.addKeyListener(this);
-        frame.setTitle("2048");
+        frame.setTitle("User : " + username);
 
         // title panel
         titlePanel.setPreferredSize(new Dimension(550, 100));

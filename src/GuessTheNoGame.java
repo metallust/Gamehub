@@ -36,6 +36,7 @@ class guessingNumber extends JFrame {
         gameImage = gameImage.getScaledInstance(325, 310, java.awt.Image.SCALE_SMOOTH);
         gameIcon = new ImageIcon(gameImage);
 
+        setTitle("User : " + username);
         l1 = new JLabel("Enter the number from 1-100", SwingConstants.CENTER);
         l2 = new JLabel("Start Guessing.....", SwingConstants.CENTER);
         l3 = new JLabel("Trials left: " + chances, SwingConstants.CENTER);
