@@ -31,7 +31,7 @@ class guessingNumber extends JFrame {
 
     public guessingNumber() {
         System.out.println(number);
-        gameIcon = new ImageIcon("Images/GNbackground.png");
+        gameIcon = new ImageIcon(getClass().getResource("/Images/GNbackground.jpg"));
         gameImage = gameIcon.getImage();
         gameImage = gameImage.getScaledInstance(325, 310, java.awt.Image.SCALE_SMOOTH);
         gameIcon = new ImageIcon(gameImage);
