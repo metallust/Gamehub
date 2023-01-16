@@ -23,19 +23,26 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        g2.addActionListener(new ActionListener() {
+        g1.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Game2048(username);
+                new SubFrame(username, 1);
                 dispose();
             }
 
         });
-        g1.addActionListener(new ActionListener() {
+        g2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new guessingNumber(username);
+                new SubFrame(username, 2);
+                dispose();
+            }
+        });
+        g3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SubFrame(username, 3);
                 dispose();
             }
         });

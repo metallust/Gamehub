@@ -47,7 +47,7 @@ public class Game3 extends JFrame {
     Game3(String username) {
         this.username = username;
         conJdbc = new Jdbc(username);
-        highScore = conJdbc.fetchHighscore("score3");
+        highScore = conJdbc.fetchHighscore(3);
         highScoreNumber.setText(Integer.toString(highScore));
 
         // main frame
@@ -142,7 +142,7 @@ public class Game3 extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 if (score > highScore) {
-                    conJdbc.updatescore(score, "score3");
+                    conJdbc.updatescore(score, 3);
                 }
                 new Game3(username);
                 conJdbc.connectionClose();
@@ -152,7 +152,7 @@ public class Game3 extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (score > highScore) {
-                    conJdbc.updatescore(score, "score3");
+                    conJdbc.updatescore(score, 3);
                 }
                 new MainFrame(username);
                 conJdbc.connectionClose();
@@ -208,12 +208,12 @@ public class Game3 extends JFrame {
                         "Game Over",
                         "Try Again",
                         JOptionPane.ERROR_MESSAGE);
-                new Game3(username);
                 if (score > highScore) {
-                    conJdbc.updatescore(score, "score3");
+                    conJdbc.updatescore(score, 3);
                 }
                 conJdbc.connectionClose();
                 frame.dispose();
+                new Game3(username);
             }
         }
 

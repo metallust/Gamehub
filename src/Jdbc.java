@@ -17,14 +17,14 @@ public class Jdbc {
         }
     }
 
-    int fetchHighscore(String score) {
+    int fetchHighscore(int game) {
 
-        String sql = "SELECT " + score + " FROM users WHERE username=?";
+        String sql = "SELECT score" + game + " FROM users WHERE username=?";
         try (PreparedStatement preparedStatment = con.prepareStatement(sql)) {
             preparedStatment.setString(1, username);
             ResultSet resultSet = preparedStatment.executeQuery();
             if (resultSet.next()) {
-                highscore = resultSet.getInt(score);
+                highscore = resultSet.getInt("score" + game);
             }
             preparedStatment.close();
         } catch (SQLException e) {
@@ -42,10 +42,10 @@ public class Jdbc {
         }
     }
 
-    public void updatescore(int score, String gameno) {
+    public void updatescore(int score, int game) {
         try {
             // inserting data in the database
-            String sql = "UPDATE users SET " + gameno + " = ? WHERE username = ?";
+            String sql = "UPDATE users SET score" + game + " = ? WHERE username = ?";
             PreparedStatement preparedStatment = con.prepareStatement(sql);
             preparedStatment.setLong(1, score);
             preparedStatment.setString(2, username);
@@ -108,4 +108,30 @@ public class Jdbc {
         return result == 1;
     }
 
+    User[] getTop10Users(int game) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        User[] top10Users = new User[10];
+        for (int i = 0; i < 10; i++)
+            top10Users[i] = new User();
+        int i = 0;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(
+                    "SELECT username,score" + game + " FROM users ORDER BY score" + game + " DESC LIMIT 10");
+            while (rs.next()) {
+                String username = rs.getString("username");
+                int score = rs.getInt("score" + game);
+                top10Users[i].username = username;
+                top10Users[i].score = score;
+                i++;
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return top10Users;
+    }
 }
