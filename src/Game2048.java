@@ -17,8 +17,7 @@ public class Game2048 extends JFrame implements KeyListener {
     int w = 100;
     int rows = 4, cols = 4;
     Cell[][] grid = new Cell[rows][cols];
-    boolean flag;
-    boolean gameover = false;
+    boolean flag = false;
     int score = 0;
     int highScore;
 
@@ -209,7 +208,11 @@ public class Game2048 extends JFrame implements KeyListener {
                 grid[i][j].number = temp[i];
             }
         }
-        addNumbers();
+        if (flag) {
+            addNumbers();
+        } else {
+            flag = false;
+        }
     }
 
     public void addRowsRight() {
@@ -223,7 +226,11 @@ public class Game2048 extends JFrame implements KeyListener {
                 grid[i][j].number = temp[3 - i];
             }
         }
-        addNumbers();
+        if (flag) {
+            addNumbers();
+        } else {
+            flag = false;
+        }
     }
 
     public void addColumnsDown() {
@@ -237,7 +244,11 @@ public class Game2048 extends JFrame implements KeyListener {
                 grid[j][i].number = temp[3 - i];
             }
         }
-        addNumbers();
+        if (flag) {
+            addNumbers();
+        } else {
+            flag = false;
+        }
     }
 
     public void addColumnsUp() {
@@ -251,7 +262,11 @@ public class Game2048 extends JFrame implements KeyListener {
                 grid[j][i].number = temp[i];
             }
         }
-        addNumbers();
+        if (flag) {
+            addNumbers();
+        } else {
+            flag = false;
+        }
     }
 
     public int[] addArray(int[] temp) {
@@ -274,7 +289,7 @@ public class Game2048 extends JFrame implements KeyListener {
                 temp2[3] = 0;
             }
         }
-        if (Arrays.equals(temp, temp2))
+        if (!Arrays.equals(temp, temp2))
             flag = true;
         return temp2;
     }
@@ -288,23 +303,15 @@ public class Game2048 extends JFrame implements KeyListener {
                 }
             }
         }
-        if (flag) {
+        if (temp.size() > 0) {
             Random random = new Random();
             temp.get(random.nextInt(temp.size())).number = (random.nextInt(2) + 1) * 2;
         }
-        if (temp.size() == 1) {
-            // System.out.println("Game over I think!!!!!!!!!!!!!!!!");
-            gameOver();
-            flag = false;
-        }
-
         temp.clear();
-        flag = false;
     }
 
-    public void gameOver() {
+    public boolean gameOver() {
         // check left
-        gameover = true;
         int[] temp = new int[4];
         int[] temp2;
         for (int j = 0; j < rows; j++) {
@@ -313,8 +320,7 @@ public class Game2048 extends JFrame implements KeyListener {
             }
             temp2 = addArray(temp);
             if (!Arrays.equals(temp, temp2)) {
-                gameover = false;
-                return;
+                return false;
             }
         }
         // check right
@@ -324,8 +330,7 @@ public class Game2048 extends JFrame implements KeyListener {
             }
             temp2 = addArray(temp);
             if (!Arrays.equals(temp, temp2)) {
-                gameover = false;
-                return;
+                return false;
             }
         }
         // check up
@@ -335,8 +340,7 @@ public class Game2048 extends JFrame implements KeyListener {
             }
             temp2 = addArray(temp);
             if (!Arrays.equals(temp, temp2)) {
-                gameover = false;
-                return;
+                return false;
             }
         }
         // check down
@@ -346,10 +350,10 @@ public class Game2048 extends JFrame implements KeyListener {
             }
             temp2 = addArray(temp);
             if (!Arrays.equals(temp, temp2)) {
-                gameover = false;
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -365,7 +369,9 @@ public class Game2048 extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // System.out.println(e.getKeyCode());
-        if (!gameover) {
+
+        if (!gameOver()) {
+
             if (e.getKeyCode() == 37) {
 
                 addRowsLeft();
@@ -383,12 +389,18 @@ public class Game2048 extends JFrame implements KeyListener {
             updateLabels();
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Game Over",
+                    "Try Again",
                     "Game Over",
                     JOptionPane.ERROR_MESSAGE);
+            if (score > highScore) {
+                conJdbc.updatescore2(score);
+            }
+            conJdbc.connectionClose();
+            new Game2048(username);
+            frame.dispose();
         }
-    }
 
+    }
 }
 
 class Cell {

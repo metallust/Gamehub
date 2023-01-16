@@ -34,6 +34,23 @@ public class Jdbc {
 
     }
 
+    int fetchHighscore3() {
+
+        String sql = "SELECT score3 FROM users WHERE username=?";
+        try (PreparedStatement preparedStatment = con.prepareStatement(sql)) {
+            preparedStatment.setString(1, username);
+            ResultSet resultSet = preparedStatment.executeQuery();
+            if (resultSet.next()) {
+                highscore = resultSet.getInt("score3");
+            }
+            preparedStatment.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return highscore;
+
+    }
+
     void connectionClose() {
         try {
             con.close();
