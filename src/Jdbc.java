@@ -17,31 +17,14 @@ public class Jdbc {
         }
     }
 
-    int fetchHighscore2() {
+    int fetchHighscore(String score) {
 
-        String sql = "SELECT score2 FROM users WHERE username=?";
+        String sql = "SELECT " + score + " FROM users WHERE username=?";
         try (PreparedStatement preparedStatment = con.prepareStatement(sql)) {
             preparedStatment.setString(1, username);
             ResultSet resultSet = preparedStatment.executeQuery();
             if (resultSet.next()) {
-                highscore = resultSet.getInt("score2");
-            }
-            preparedStatment.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return highscore;
-
-    }
-
-    int fetchHighscore3() {
-
-        String sql = "SELECT score3 FROM users WHERE username=?";
-        try (PreparedStatement preparedStatment = con.prepareStatement(sql)) {
-            preparedStatment.setString(1, username);
-            ResultSet resultSet = preparedStatment.executeQuery();
-            if (resultSet.next()) {
-                highscore = resultSet.getInt("score3");
+                highscore = resultSet.getInt(score);
             }
             preparedStatment.close();
         } catch (SQLException e) {
@@ -59,10 +42,10 @@ public class Jdbc {
         }
     }
 
-    public void updatescore2(int score) {
+    public void updatescore(int score, String gameno) {
         try {
             // inserting data in the database
-            String sql = "UPDATE users SET score2 = ? WHERE username = ?";
+            String sql = "UPDATE users SET " + gameno + " = ? WHERE username = ?";
             PreparedStatement preparedStatment = con.prepareStatement(sql);
             preparedStatment.setLong(1, score);
             preparedStatment.setString(2, username);

@@ -10,7 +10,7 @@ import java.awt.event.*;
 public class Game2048 extends JFrame implements KeyListener {
 
     public static void main(String[] args) {
-        new Game2048("irfan1");
+        new Game2048("basit");
     }
 
     Jdbc conJdbc;
@@ -48,7 +48,7 @@ public class Game2048 extends JFrame implements KeyListener {
     Game2048(String username) {
         this.username = username;
         conJdbc = new Jdbc(username);
-        highScore = conJdbc.fetchHighscore2();
+        highScore = conJdbc.fetchHighscore("score2");
         highScoreNumber.setText(Integer.toString(highScore));
 
         // main frame
@@ -127,7 +127,7 @@ public class Game2048 extends JFrame implements KeyListener {
         newGameButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (score > highScore) {
-                    conJdbc.updatescore2(score);
+                    conJdbc.updatescore(score, "score2");
                 }
                 new Game2048(username);
                 conJdbc.connectionClose();
@@ -137,7 +137,7 @@ public class Game2048 extends JFrame implements KeyListener {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (score > highScore) {
-                    conJdbc.updatescore2(score);
+                    conJdbc.updatescore(score, "score2");
                 }
                 new MainFrame(username);
                 conJdbc.connectionClose();
@@ -393,7 +393,7 @@ public class Game2048 extends JFrame implements KeyListener {
                     "Game Over",
                     JOptionPane.ERROR_MESSAGE);
             if (score > highScore) {
-                conJdbc.updatescore2(score);
+                conJdbc.updatescore(score, "score2");
             }
             conJdbc.connectionClose();
             new Game2048(username);
