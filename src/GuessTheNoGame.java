@@ -4,9 +4,9 @@ import java.awt.event.*;
 // import java.time.Period;
 
 public class GuessTheNoGame {
-    // public static void main(String[] args) {
-    //     new guessingNumber("irfan1");
-    // }
+    public static void main(String[] args) {
+        new guessingNumber("irfan");
+    }
 }
 
 class guessingNumber extends JFrame {
