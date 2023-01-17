@@ -3,7 +3,7 @@ import java.sql.*;
 public class Jdbc {
     final String DB_URL = "jdbc:mysql://localhost:3306/userdatabase";
     final String USERNAME = "root";
-    final String PASSWORD = "irfan";
+    final String PASSWORD = "basit";
     int highscore;
     Connection con;
     String username;
@@ -74,19 +74,23 @@ public class Jdbc {
 
     boolean checkUser() {
         int result = 0;
+        PreparedStatement preparedStatment;
 
         try {
             String sql = "SELECT COUNT(*) FROM users WHERE username=?";
-            PreparedStatement preparedStatment = con.prepareStatement(sql);
+             preparedStatment = con.prepareStatement(sql);
             preparedStatment.setString(1, username);
             ResultSet resultSet = preparedStatment.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getInt("count(*)");
             }
             preparedStatment.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
         return result != 0;
     }
 
