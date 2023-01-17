@@ -120,6 +120,32 @@ public class SubFrame extends JFrame {
         leaderbroadLabel.setFont(new Font(fontName, Font.BOLD, 30));
         panel.add(leaderbroadLabel, BorderLayout.NORTH);
 
+        // rank username score
+        // JLabel rankTitle = new JLabel(Integer.toString(i), JLabel.CENTER);
+        // rankTitle.setFont(new Font(fontName, Font.BOLD, 25));
+        // rankTitle.setForeground(new Color(255, 214, 0));
+        // rankTitle.setPreferredSize(new Dimension(550, 30));
+
+        // JLabel usernameTitle = new JLabel(user.username, JLabel.CENTER);
+        // usernameTitle.setFont(new Font(fontName, Font.BOLD, 25));
+        // usernameTitle.setForeground(new Color(255, 214, 0));
+        // usernameTitle.setPreferredSize(new Dimension(550, 30));
+
+        // JLabel scoreTitle = new JLabel(Integer.toString(user.score), JLabel.CENTER);
+        // scoreTitle.setFont(new Font(fontName, Font.BOLD, 25));
+        // scoreTitle.setForeground(new Color(255, 214, 0));
+        // scoreTitle.setPreferredSize(new Dimension(550, 30));
+
+        // JPanel userPanel = new JPanel();
+        // userPanel.setLayout(new GridLayout(1, 3));
+        // userPanel.add(ranklabel);
+        // userPanel.add(usernameLabel);
+        // userPanel.add(scoreLable);
+
+        // userPanel.setBorder(new LineBorder(Color.red, 10, false));
+        // leaderbroadPanel.add(userPanel);
+
+        // list
         int i = 0;
         for (User user : top10Users) {
             i++;
