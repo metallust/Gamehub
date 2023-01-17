@@ -27,12 +27,12 @@ public class Game3 extends JFrame {
     JLabel question = new JLabel();
 
     JPanel scoresPanel = new JPanel();
-    JLabel scoreTitle = new JLabel("Score");
-    JLabel scoreNumber = new JLabel("0");
-    JLabel highScoreTitle = new JLabel("High Score");
-    JLabel highScoreNumber = new JLabel("0");
-    JLabel lifeLabel = new JLabel("Life");
-    JLabel lifeNumber = new JLabel(Integer.toString(life));
+    JLabel scoreTitle = new JLabel("Score", JLabel.CENTER);
+    JLabel scoreNumber = new JLabel("0", JLabel.CENTER);
+    JLabel highScoreTitle = new JLabel("High Score", JLabel.CENTER);
+    JLabel highScoreNumber = new JLabel("0", JLabel.CENTER);
+    JLabel lifeLabel = new JLabel("Life", JLabel.CENTER);
+    JLabel lifeNumber = new JLabel(Integer.toString(life), JLabel.CENTER);
 
     JPanel optionPanel = new JPanel();
     JButton[][] buttons = new JButton[4][4];
@@ -60,19 +60,19 @@ public class Game3 extends JFrame {
         frame.setTitle("User : " + username);
 
         // title panel
-        titlePanel.setPreferredSize(new Dimension(550, 150));
+        titlePanel.setPreferredSize(new Dimension(550, 135));
         titlePanel.setLayout(new BorderLayout());
         titlePanel.setBackground(new Color(8, 36, 80));
 
         label = new JLabel("Guess the Color", JLabel.CENTER);
-        label.setPreferredSize(new Dimension(550, 50));
+        label.setPreferredSize(new Dimension(550, 75));
         label.setFont(new Font(fontName, Font.BOLD, 40));
         label.setForeground(new Color(255, 214, 0));
         titlePanel.add(label, BorderLayout.NORTH);
 
         scoresPanel = new JPanel();
         scoresPanel.setLayout(new GridLayout(2, 3));
-        scoresPanel.setPreferredSize(new Dimension(550, 50));
+        scoresPanel.setPreferredSize(new Dimension(550, 60));
 
         scoreTitle.setFont(new Font(fontName, Font.BOLD, 27));
         scoreTitle.setForeground(new Color(255, 164, 0));

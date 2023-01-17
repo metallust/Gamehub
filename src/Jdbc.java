@@ -119,11 +119,16 @@ public class Jdbc {
         for (int i = 0; i < 10; i++)
             top10Users[i] = new User();
         int i = 0;
+        String order;
+        if (game == 1)
+            order = "ASC";
+        else
+            order = "DESC";
 
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(
-                    "SELECT username,score" + game + " FROM users ORDER BY score" + game + " DESC LIMIT 10");
+                    "SELECT username,score" + game + " FROM users ORDER BY score" + game + " " + order + " LIMIT 10");
             while (rs.next()) {
                 String username = rs.getString("username");
                 int score = rs.getInt("score" + game);

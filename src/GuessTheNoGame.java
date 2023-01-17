@@ -22,14 +22,21 @@ class guessingNumber extends JFrame {
     JPanel pS;
 
     // back end
-    int chances = 5;
-    int number = 1 + (int) (100 * Math.random());
+    int chances = 100;
+    int highScore;
+    Jdbc conJdbc;
+    int number = 1 + (int) (10000 * Math.random());
     int guess;
     int K = chances;
     int flag = 0;
     int win = 0;
 
     public guessingNumber(String username) {
+
+        conJdbc = new Jdbc(username);
+        highScore = conJdbc.fetchHighscore(1);
+        System.out.println(highScore);
+
         System.out.println(number);
         gameIcon = new ImageIcon(getClass().getResource("/Images/GNbackground.jpg"));
         gameImage = gameIcon.getImage();
@@ -37,7 +44,7 @@ class guessingNumber extends JFrame {
         gameIcon = new ImageIcon(gameImage);
 
         setTitle("User : " + username);
-        l1 = new JLabel("Enter the number from 1-100", SwingConstants.CENTER);
+        l1 = new JLabel("Enter the number from 1-10000", SwingConstants.CENTER);
         l2 = new JLabel("Start Guessing.....", SwingConstants.CENTER);
         l3 = new JLabel("Trials left: " + chances, SwingConstants.CENTER);
         l1.setForeground(Color.orange);
@@ -115,6 +122,10 @@ class guessingNumber extends JFrame {
                         flag = 1;
                         chances--;
                         win = 1;
+
+                        if (chances < highScore || highScore == 0) {
+                            conJdbc.updatescore(chances, 1);
+                        }
                     } else if (number > guess) {
                         l2.setText(
                                 "The number is "
@@ -133,14 +144,39 @@ class guessingNumber extends JFrame {
                                         "The number was " + number);
                         l2.setForeground(Color.red);
                         flag = -1;
+
+                        JOptionPane.showMessageDialog(guessingNumber.this,
+                                "Game Over",
+                                "Try Again",
+                                JOptionPane.ERROR_MESSAGE);
+                        if (chances < highScore || highScore == 0) {
+                            conJdbc.updatescore(chances, 1);
+                        }
+                        conJdbc.connectionClose();
+                        dispose();
+                        new guessingNumber(username);
                     }
 
                     l3.setText("Trials left: " + chances);
                 } else if (flag == -1) {
                     l2.setText(
                             "You Failed, Restart the game to play again!");
+
+                    JOptionPane.showMessageDialog(guessingNumber.this,
+                            "Game Over",
+                            "Try Again",
+                            JOptionPane.ERROR_MESSAGE);
+                    if (chances < highScore || highScore == 0) {
+                        conJdbc.updatescore(chances, 1);
+                    }
+                    conJdbc.connectionClose();
+                    dispose();
+                    new guessingNumber(username);
                 } else if (flag == 1) {
                     l2.setText("You Won!..." + "Please restart the game to play again");
+                    if (chances < highScore || highScore == 0) {
+                        conJdbc.updatescore(chances, 1);
+                    }
                 }
             }
 
@@ -150,12 +186,23 @@ class guessingNumber extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 new guessingNumber(username);
                 dispose();
+                if (chances < highScore || highScore == 0) {
+                    conJdbc.updatescore(chances, 1);
+                }
+                conJdbc.connectionClose();
+                dispose();
             }
         });
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new MainFrame(username);
                 dispose();
+                if (chances < highScore || highScore == 0) {
+                    conJdbc.updatescore(chances, 1);
+                }
+                conJdbc.connectionClose();
+                dispose();
+
             }
         });
     }

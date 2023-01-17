@@ -25,7 +25,7 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    score1 INT DEFAULT 0,
+    score1 INT DEFAULT 100,
     score2 INT DEFAULT 0,
     score3 INT DEFAULT 0
     );
