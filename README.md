@@ -21,6 +21,10 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 
 -   Database userdatabase
 -   Table users
+-   column are name, username, password, score1, score2, score3 
+
+-   CREATE database userdatabase;
+-   use userdatabase;
 -   CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -29,3 +33,5 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
     score2 INT DEFAULT 0,
     score3 INT DEFAULT 0
     );
+
+## make password for database game
