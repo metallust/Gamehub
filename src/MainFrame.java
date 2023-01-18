@@ -1,74 +1,78 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class MainFrame extends JFrame {
     JButton g1, g2, g3, logout;
+    JFrame frame = new JFrame();
+    String fontName = "Verdana";
 
     MainFrame(String username) {
-        g1 = new JButton("Guess the number");
-        g2 = new JButton("2048");
-        g3 = new JButton("Guess the color");
+        g1 = new JButton();
+        Image img = new ImageIcon(getClass().getResource("/Images/game1.png")).getImage();
+        g1.setIcon(new ImageIcon(img));
+
+        g2 = new JButton();
+        Image img2 = new ImageIcon(getClass().getResource("/Images/game2.jpg")).getImage();
+        g2.setIcon(new ImageIcon(img2));
+
+        g3 = new JButton();
+        Image img3 = new ImageIcon(getClass().getResource("/Images/game3.png")).getImage();
+        g3.setIcon(new ImageIcon(img3));
+        // g3.setForeground(Color.WHITE);
+        // g3.setFont(new Font(fontName, Font.BOLD, 20));
+
+        // logout button
         logout = new JButton("LOGOUT");
-        // add(g1);
-        // add(g2);
-        // add(g3);
-        // add(logout);
-        Container c = this.getContentPane();
-        c.setLayout(new BorderLayout());
-        // c.setBackground(Color.BLACK);
+        logout.setBackground(new Color(255, 214, 0));
+        logout.setForeground(Color.WHITE);
+        logout.setFont(new Font(fontName, Font.BOLD, 20));
+        logout.setBorder(new LineBorder(new Color(5, 24, 53), 4, false));
+        logout.setPreferredSize(new Dimension(120, 40));
 
-        setLayout(new GridLayout(3, 1, 0, 20));
-        setTitle("user: " + username);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(350, 650);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
-        JLabel l = new JLabel("Hello");
-        JPanel top = new JPanel();
-        top.add(l);
+        // tile panel
+        JPanel title = new JPanel();
+        title.setPreferredSize(new Dimension(700, 40));
+        title.setLayout(new BorderLayout());
 
-        JPanel allGame = new JPanel();
-        allGame.setLayout(null);
-        JPanel grid = new JPanel();
-        // grid.setBounds(25,25,550,450);
-        grid.setLayout(new GridLayout(2,10,20,25));
-        g1.setBorder(null);
-        g2.setBorder(null);
-        g3.setBorder(null);
-        g1.setBackground(Color.BLACK);
-        g1.setForeground(Color.orange);
-        g2.setBackground(Color.BLACK);
-        g2.setForeground(Color.orange);
-        g3.setBackground(Color.BLACK);
-        g3.setForeground(Color.orange);
-        grid.add(g1);
-        grid.add(g2);
-        grid.add(g3);
-        // allGame.add(grid);
+        // Username
+        JLabel User = new JLabel(username);
+        User.setFont(new Font(fontName, Font.BOLD, 30));
+        User.setForeground(Color.WHITE);
+        title.add(logout, BorderLayout.EAST);
+        title.add(User, BorderLayout.WEST);
+        title.setBackground(new Color(5, 24, 53));
 
-        JPanel bottom = new JPanel();
-        bottom.setLayout(new FlowLayout());
-        bottom.add(logout);
+        // Button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(3, 1));
+        buttonPanel.add(g1);
+        buttonPanel.add(g2);
+        buttonPanel.add(g3);
 
+        // initializing the frame
+        frame.setTitle("User : " + username);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setSize(700, 700);
+        frame.setMinimumSize(new Dimension(850, 800));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setLayout(new BorderLayout());
 
-        // grid.setBackground(Color.BLACK);
-        // bottom.setBackground(Color.BLACK);
-        // c.add(top,BorderLayout.NORTH);
-       c.add(grid,BorderLayout.CENTER);
-       c.add(bottom,BorderLayout.SOUTH);
+        // adding all the panels
+        frame.add(title, BorderLayout.NORTH);
+        frame.add(buttonPanel, BorderLayout.CENTER);
 
-
-
-
+        // Action listener
 
         g1.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SubFrame(username, 1);
-                dispose();
+                frame.dispose();
             }
 
         });
@@ -76,21 +80,21 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SubFrame(username, 2);
-                dispose();
+                frame.dispose();
             }
         });
         g3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SubFrame(username, 3);
-                dispose();
+                frame.dispose();
             }
         });
         logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login_signUp();
-                dispose();
+                frame.dispose();
             }
         });
     }

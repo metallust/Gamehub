@@ -53,7 +53,7 @@ public class SubFrame extends JFrame {
         titlePanel.setBackground(new Color(8, 36, 80));
 
         gameTitle = new JLabel(gameName, JLabel.CENTER);
-        gameTitle.setFont(new Font(fontName, Font.BOLD, 50));
+        gameTitle.setFont(new Font(fontName, Font.BOLD, 48));
         gameTitle.setForeground(new Color(255, 214, 0));
         titlePanel.add(gameTitle, BorderLayout.NORTH);
 
@@ -71,7 +71,9 @@ public class SubFrame extends JFrame {
         playButton.setFont(new Font(fontName, Font.BOLD, 35));
         playButton.setForeground(new Color(255, 214, 0));
         playButton.setPreferredSize(new Dimension(170, 50));
-        playButton.setBorder(new LineBorder(Color.white, 10, false));
+        playButton.setBorder(new LineBorder(new Color(255, 214, 0), 10, false));
+        playButton.setBackground(new Color(255, 214, 0));
+        playButton.setForeground(Color.white);
 
         playButton.addActionListener(new ActionListener() {
 
@@ -96,9 +98,11 @@ public class SubFrame extends JFrame {
         backButton.setFont(new Font(fontName, Font.BOLD, 35));
         backButton.setForeground(new Color(255, 214, 0));
         backButton.setPreferredSize(new Dimension(170, 50));
-        backButton.setBorder(new LineBorder(Color.white, 10, false));
-        backButton.addActionListener(new ActionListener() {
+        backButton.setBorder(new LineBorder(new Color(255, 214, 0), 10, false));
+        backButton.setBackground(new Color(255, 214, 0));
+        backButton.setForeground(Color.white);
 
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainFrame(username);
@@ -110,40 +114,43 @@ public class SubFrame extends JFrame {
 
         // Leaderbroad panel
         panel.setLayout(new BorderLayout());
-        panel.setBorder(new LineBorder(Color.red, 10, false));
+        panel.setBorder(new LineBorder(new Color(64, 87, 128), 10, false));
 
-        leaderbroadPanel.setPreferredSize(new Dimension(550, 550));
-        leaderbroadPanel.setLayout(new GridLayout(10, 3));
+        leaderbroadPanel.setPreferredSize(new Dimension(600, 550));
+        leaderbroadPanel.setLayout(new GridLayout(11, 3));
         leaderbroadPanel.setBackground(new Color(8, 36, 80));
 
-        leaderbroadLabel = new JLabel("Leaderbroad", JLabel.CENTER);
+        leaderbroadLabel = new JLabel("leaderboard", JLabel.CENTER);
         leaderbroadLabel.setFont(new Font(fontName, Font.BOLD, 30));
+        leaderbroadLabel.setForeground(new Color(8, 36, 80));
+
         panel.add(leaderbroadLabel, BorderLayout.NORTH);
 
         // rank username score
-        // JLabel rankTitle = new JLabel(Integer.toString(i), JLabel.CENTER);
-        // rankTitle.setFont(new Font(fontName, Font.BOLD, 25));
-        // rankTitle.setForeground(new Color(255, 214, 0));
-        // rankTitle.setPreferredSize(new Dimension(550, 30));
+        JLabel rankTitle = new JLabel("Rank", JLabel.CENTER);
+        rankTitle.setFont(new Font(fontName, Font.BOLD, 28));
+        rankTitle.setForeground(new Color(255, 214, 0));
+        rankTitle.setPreferredSize(new Dimension(550, 40));
 
-        // JLabel usernameTitle = new JLabel(user.username, JLabel.CENTER);
-        // usernameTitle.setFont(new Font(fontName, Font.BOLD, 25));
-        // usernameTitle.setForeground(new Color(255, 214, 0));
-        // usernameTitle.setPreferredSize(new Dimension(550, 30));
+        JLabel usernameTitle = new JLabel("Username", JLabel.CENTER);
+        usernameTitle.setFont(new Font(fontName, Font.BOLD, 25));
+        usernameTitle.setForeground(new Color(255, 214, 0));
+        usernameTitle.setPreferredSize(new Dimension(550, 40));
 
-        // JLabel scoreTitle = new JLabel(Integer.toString(user.score), JLabel.CENTER);
-        // scoreTitle.setFont(new Font(fontName, Font.BOLD, 25));
-        // scoreTitle.setForeground(new Color(255, 214, 0));
-        // scoreTitle.setPreferredSize(new Dimension(550, 30));
+        JLabel scoreTitle = new JLabel("Score", JLabel.CENTER);
+        scoreTitle.setFont(new Font(fontName, Font.BOLD, 25));
+        scoreTitle.setForeground(new Color(255, 214, 0));
+        scoreTitle.setPreferredSize(new Dimension(550, 40));
 
-        // JPanel userPanel = new JPanel();
-        // userPanel.setLayout(new GridLayout(1, 3));
-        // userPanel.add(ranklabel);
-        // userPanel.add(usernameLabel);
-        // userPanel.add(scoreLable);
+        JPanel userTitle = new JPanel();
+        userTitle.setLayout(new GridLayout(1, 3));
+        userTitle.setBackground(new Color(8, 36, 80));
+        userTitle.add(rankTitle);
+        userTitle.add(usernameTitle);
+        userTitle.add(scoreTitle);
 
-        // userPanel.setBorder(new LineBorder(Color.red, 10, false));
-        // leaderbroadPanel.add(userPanel);
+        userTitle.setBorder(new LineBorder(new Color(64, 87, 128), 10, false));
+        leaderbroadPanel.add(userTitle);
 
         // list
         int i = 0;
@@ -152,25 +159,29 @@ public class SubFrame extends JFrame {
             JLabel ranklabel = new JLabel(Integer.toString(i), JLabel.CENTER);
             ranklabel.setFont(new Font(fontName, Font.BOLD, 25));
             ranklabel.setForeground(new Color(255, 214, 0));
+            ranklabel.setBackground(new Color(8, 36, 80));
             ranklabel.setPreferredSize(new Dimension(550, 30));
 
             JLabel usernameLabel = new JLabel(user.username, JLabel.CENTER);
             usernameLabel.setFont(new Font(fontName, Font.BOLD, 25));
             usernameLabel.setForeground(new Color(255, 214, 0));
+            usernameLabel.setBackground(new Color(8, 36, 80));
             usernameLabel.setPreferredSize(new Dimension(550, 30));
 
             JLabel scoreLable = new JLabel(Integer.toString(user.score), JLabel.CENTER);
             scoreLable.setFont(new Font(fontName, Font.BOLD, 25));
             scoreLable.setForeground(new Color(255, 214, 0));
+            scoreLable.setBackground(new Color(8, 36, 80));
             scoreLable.setPreferredSize(new Dimension(550, 30));
 
             JPanel userPanel = new JPanel();
             userPanel.setLayout(new GridLayout(1, 3));
+            userPanel.setBackground(new Color(8, 36, 80));
             userPanel.add(ranklabel);
             userPanel.add(usernameLabel);
             userPanel.add(scoreLable);
 
-            userPanel.setBorder(new LineBorder(Color.red, 10, false));
+            userPanel.setBorder(new LineBorder(new Color(64, 87, 128), 10, false));
             leaderbroadPanel.add(userPanel);
         }
 
